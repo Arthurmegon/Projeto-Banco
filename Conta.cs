@@ -11,30 +11,32 @@ public class Conta
 
  public void Sacar(double valor)
  {
-     if(valor <= 0)
-     {
-         throw new ArgumentException("Não foi possível sacar valor solicitado.");
-     }
+     VerificarValor(valor);
+     VerificarSaldo(valor);
      Saldo = Saldo - valor;
  }
 
  public void Depositar(double valor)
  {
-     if(valor <= 0)
-     {
-         throw new ArgumentException("Não foi possível depositar valor solicitado.");
-     }
+     VerificarValor(valor);
      Saldo = Saldo + valor;
  }
 
  public void Transferir(double valor, Conta conta)
  {
-     if(valor <= 0)
-     {
-         throw new ArgumentException("Não foi possível transferir valor solicitado.");
-     }
-     this.Sacar(valor);
-     conta.Depositar(valor);
+    Sacar(valor);
+    conta.Depositar(valor);
  }
 
+ private void VerificarValor(double valor)
+ {
+    if(valor <= 0)
+     throw new ArgumentException("O valor deve ser maior que 0.");
+ }
+
+ private void VerificarSaldo(double valor)
+ {
+    if(valor > Saldo)
+     throw new ArgumentException("Saldo insuficiente.");
+ }
 }
